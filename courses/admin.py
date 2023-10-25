@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subject, Course, Module
+from .models import Subject, Course, Module, Content
 
 
 @admin.register(Subject)
@@ -25,3 +25,8 @@ class CourseAdmin(admin.ModelAdmin):
 class ModuleAdmin(admin.ModelAdmin):
     list_display = ['id', 'course', 'title', 'order']
     search_fields = ['title', ]
+
+
+@admin.register(Content)
+class ContentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'module', 'content_type', 'item', 'order']
