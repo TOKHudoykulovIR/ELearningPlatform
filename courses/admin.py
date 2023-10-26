@@ -23,7 +23,7 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
-    list_display = ['id', 'course', 'title', 'order']
+    list_display = ['id', 'title', 'course', 'order']
     search_fields = ['title', ]
 
 
