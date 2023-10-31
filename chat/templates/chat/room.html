@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Chat room for "{{ course.title }}"{% endblock %}
+
+{% block content %}
+    <div id="chat"> </div>
+
+    <div id="chat-input">
+        <input id="chat-message-input" type="text">
+        <input id="chat-message-submit" type="submit" value="Send">
+    </div>
+{% endblock %}
+
+{% block include_js %}
+    <!--
+    below is rendered as <script id="course-id" type="application/json">course.id</script>
+    This value is then retrieved in the domready block by parsing the content of the element with id="course-id" using JSON.parse()
+    This is the safe way to use Python objects in JavaScript.
+    -->
+    {{ course.id|json_script:"course-id" }}
+{% endblock %}
+
+{% block domready %}
+    const courseId = JSON.parse(  <!-- parse value from include_js block -->
+        document.getElementById('course-id').textContent
+    );
+
+    <!-- window.location.hoscurrent get location of the browser -->
+    const url = 'ws://' + window.location.host + '/ws/chat/room/' + courseId + '/';
+
+    const chatSocket = new WebSocket(url);
+{% endblock %}
