@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'redisboard',
     'rest_framework',
+    'chat',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +155,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+ASGI_APPLICATION = 'ELearningPlatform.asgi.application'
