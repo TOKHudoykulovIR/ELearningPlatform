@@ -3,8 +3,8 @@
 {% block title %}Chat room for "{{ course.title }}"{% endblock %}
 
 {% block content %}
-    <div id="chat"> </div>
-
+    <div id="chat">
+    </div>
     <div id="chat-input">
         <input id="chat-message-input" type="text">
         <input id="chat-message-submit" type="submit" value="Send">
@@ -25,8 +25,49 @@
         document.getElementById('course-id').textContent
     );
 
-    <!-- window.location.hoscurrent get location of the browser -->
+    <!-- window.location.host get current location of the browser -->
     const url = 'ws://' + window.location.host + '/ws/chat/room/' + courseId + '/';
 
     const chatSocket = new WebSocket(url);
+
+    <!-- when websocket received message -->
+    chatSocket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const chat = document.getElementById('chat');
+        chat.innerHTML += '<div class="message">' + data.message + '</div>';
+        chat.scrollTop = chat.scrollHeight;
+    };
+
+    <!-- when connection closed with websocket -->
+    chatSocket.onclose = function(event) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    const input = document.getElementById('chat-message-input');
+    const submitButton = document.getElementById('chat-message-submit');
+
+    submitButton.addEventListener('click', function(event) {
+        const message = input.value;
+        if(message) {
+            // send message in JSON format
+            chatSocket.send(JSON.stringify({'message': message}));
+            // clear input
+            input.value = '';
+            input.focus();
+            }
+        }
+    );
+
+    <!--  capture keyboard keypress events to identify the Enter key and fire the click event on the submit button -->
+    input.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            // cancel the default action, if needed
+            event.preventDefault();
+            // trigger click event on button
+            submitButton.click();
+            }
+        }
+    );
+
+    input.focus();
 {% endblock %}
