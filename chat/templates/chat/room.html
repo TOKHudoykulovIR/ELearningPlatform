@@ -31,7 +31,8 @@
     );
 
     <!-- window.location.host get current location of the browser -->
-    const url = 'ws://' + window.location.host + '/ws/chat/room/' + courseId + '/';
+    const url = 'wss://' + window.location.host +
+                '/ws/chat/room/' + courseId + '/';
 
     const chatSocket = new WebSocket(url);
 
