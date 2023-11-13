@@ -27,3 +27,8 @@ DATABASES = {
 REDIS_URL = 'redis://cache:6379'
 CACHES['default']['LOCATION'] = REDIS_URL
 CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [REDIS_URL]
+
+# Security. Django will redirect HTTP requests to HTTPS; session and CSRF cookies will be sent only over HTTPS.
+CSRF_COOKIE_SECURE = True  # use a secure cookie for cross-site request forgery (CSRF) protection.
+SESSION_COOKIE_SECURE = True  # use a secure session cookie
+SECURE_SSL_REDIRECT = True  # whether HTTP requests have to be redirected to HTTPS.
